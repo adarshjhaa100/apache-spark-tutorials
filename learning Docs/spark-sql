@@ -1,0 +1,26 @@
+Spark sql: Structured Data
+
+## Interaction with SQL
+
+    # Raw SQL
+    # Dataset API
+    
+
+## Creating type for Datasets:
+
+Suppose we have a dataset in a file and we want to type check that dataset using a custom class
+
+class DataClass{
+    param list in the database with their datatype
+}
+
+...
+
+to load the file while checking the data, do this:
+
+    spark.read.json(..).as[DataClass]
+
+
+
+
+

@@ -1,0 +1,32 @@
+## Streaming
+
+Data transfer in real time in response to some event
+
+
+
+## Input Stream
+
+# for exposing file on localsystem via netcat
+#This command will provide text through localhost:8088 for the first user which accesess it
+
+cat data/sample1.txt | nc -l 8088
+
+
+## output stream
+# outputting stream to some file system, dashboard, console etc
+
+# invoked using spark.writeStream
+
+
+
+## Windowing
+
+# run spark queries within a time window.
+# The time should be in ISO format. e.g. datetime.datetime.now().isoformat()
+
+
+## Write mode
+
+# For aggregate data: complete, update
+# for non aggregate data: append
+

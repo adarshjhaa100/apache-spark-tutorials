@@ -1,0 +1,93 @@
+
+Start a mongo server:
+sudo systemctl start mongod
+
+
+Check the server status:
+sudo systemctl status mongod
+
+
+Start mongo:
+mongo
+
+then to open mongodb compass
+mongodb-compass(for UI)
+
+
+## MongoDB spark connector
+
+Use to integrate mongoDB and apache spark 
+
+Dataframe and datasets are used to represent the data which can be used for analysis
+
+## For connecting with a Java program, use libraries mongodb-spark connector
+
+
+## Configuring spark 
+
+spark.mongodb.input.uri =
+spark.mongodb.output.uri = 
+
+#using --conf file in spark shell
+
+./bin/pyspark --conf "spark.mongodb.input.uri=mongodb://127.0.0.1/test.myCollection?readPreference=primaryPreferred" \
+              --conf "spark.mongodb.output.uri=mongodb://127.0.0.1/test.myCollection" \
+              --packages org.mongodb.spark:mongo-spark-connector_2.11:3.0.1
+
+# For Java (Note: Write --packages before mentioning the jar path and class name)
+bin/spark-submit --packages org.mongodb.spark:mongo-spark-connector_2.12:3.0.1 --class SimpleMongoConnect /home/adarsh/Documents/SparkTutorial/spark-3.1.1-bin-hadoop2.7/javacodes/mongoSpark/target/mongoSpark-1.0-SNAPSHOT.jar
+
+
+#Mongo connector api
+
+spark=SparkSession.builder.appName("mongo simple app").master("local[*]")\
+        .config("spark.mongodb.input.uri","mongodb://127.0.0.1:27017/University.Students")\
+        .config("spark.mongodb.output.uri","mongodb://127.0.0.1:27017/University.Students")\
+        .config("spark.jars.packages","org.mongodb.spark:mongo-spark-connector_2.12:3.0.1").getOrCreate()  
+
+
+
+
+
+# Map of config with <K,V> as <option, value>
+
+
+
+## Reading Data with mongodb
+
+To facilitate interaction between MongoDB and Spark, the MongoDB Spark Connector provides the com.mongodb.spark.api.java.MongoSpark helper
+
+(python)
+df=spark.read.format("mongo").load()
+
+(java)
+# Read using Java Mongo RDD(low level)
+JavaMongoRDD<Document> rdd = MongoSpark.load(jsc);
+
+
+#Read using Dataset API
+Dataset<Row> students=MongoSpark.load(jsc).toDF();
+
+# We can also create custom java classes to read specific parameters of json objects
+
+#Write using spark dataframe
+teachers=spark.createDataFrame([("Slayer","ert"),("player","22")])
+teachers.write.format("mongo").mode("append").save()
+
+
+#Write using RDD
+
+JavaRDD<Document> studoc=jsc.parallelize(stus).map(new Function<String, Document>() {
+            @Override
+            public Document call(String s) throws Exception {
+                return Document.parse(s);
+            }
+        });
+        
+        
+
+
+
+
+ 
+

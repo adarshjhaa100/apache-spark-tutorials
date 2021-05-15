@@ -1,0 +1,10 @@
+v1
+{"path":"file:///home/adarsh/Documents/SparkTutorial/spark-3.1.1-bin-hadoop2.7/pycodes/data/streaming-data/event-time-data/938.csv","timestamp":1620570757582,"batchId":3}
+{"path":"file:///home/adarsh/Documents/SparkTutorial/spark-3.1.1-bin-hadoop2.7/pycodes/data/streaming-data/event-time-data/939.csv","timestamp":1620570758585,"batchId":3}
+{"path":"file:///home/adarsh/Documents/SparkTutorial/spark-3.1.1-bin-hadoop2.7/pycodes/data/streaming-data/event-time-data/940.csv","timestamp":1620570759585,"batchId":3}
+{"path":"file:///home/adarsh/Documents/SparkTutorial/spark-3.1.1-bin-hadoop2.7/pycodes/data/streaming-data/event-time-data/941.csv","timestamp":1620570760585,"batchId":3}
+{"path":"file:///home/adarsh/Documents/SparkTutorial/spark-3.1.1-bin-hadoop2.7/pycodes/data/streaming-data/event-time-data/942.csv","timestamp":1620570761593,"batchId":3}
+{"path":"file:///home/adarsh/Documents/SparkTutorial/spark-3.1.1-bin-hadoop2.7/pycodes/data/streaming-data/event-time-data/943.csv","timestamp":1620570762597,"batchId":3}
+{"path":"file:///home/adarsh/Documents/SparkTutorial/spark-3.1.1-bin-hadoop2.7/pycodes/data/streaming-data/event-time-data/944.csv","timestamp":1620570763601,"batchId":3}
+{"path":"file:///home/adarsh/Documents/SparkTutorial/spark-3.1.1-bin-hadoop2.7/pycodes/data/streaming-data/event-time-data/946.csv","timestamp":1620570764605,"batchId":3}
+{"path":"file:///home/adarsh/Documents/SparkTutorial/spark-3.1.1-bin-hadoop2.7/pycodes/data/streaming-data/event-time-data/945.csv","timestamp":1620570764605,"batchId":3}

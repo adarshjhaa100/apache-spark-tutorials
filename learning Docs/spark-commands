@@ -1,0 +1,101 @@
+##Install and extract spark
+
+##Set SPARK_HOME to the spark directory
+set SPARK_HOME ="/home/adarsh/Documents/SparkTutorial/spark-3.1.1-bin-hadoop2.7"
+
+
+##Start apache spark 
+
+sbin/start-all.sh
+
+
+
+##Open connenction to spark in shell
+
+bin/spark-shell  (scala shell)
+bin/pyspark      (python shell)   
+
+## Python help utility
+help()
+
+
+
+##After complettion, stop the service using
+sbin/stop-master.sh
+
+
+
+##Build Spark using maven
+#DOwnload spark with source selected and run:
+spark-x.y.z/build/mvn -DskipTests clean package
+
+
+## Spark Shell for analysing data(SCALA)
+#Spark shell commands are in bin folder
+
+#A file read by spark is stored in a Dataset object, to read file on localsystem: 
+
+val book = spark.read.textFile("file:///home/adarsh/Documents/SparkTutorial/Datasets/james-joyce-ulysses.txt")
+
+#Count charcters
+book.count()
+
+
+#Show top n characters
+book.head(n)
+
+book.show(n) 
+
+
+#Filter and count words containing the word :"the"
+#Note: Here, .filter() returns a Dataset object
+
+book.filter(line=>line.contains("the")).count()
+
+
+#Create a hashmap with word as key and number of words as value
+val words=book.flatMap(line=>line.split(" ")).groupByKey(identity).count()
+
+
+
+#Sort words by descending order of count()
+words.sort($"count(1)".desc).show(10)
+
+
+
+## TO run a self contained spark application:
+(JAVA) Create a maven package jar and run:
+
+bin/spark-submit --class SparkNewJob /home/adarsh/Documents/SparkTutorial/spark-3.1.1-bin-hadoop2.7/javacodes/HelloSparkAPI/target/HelloSparkAPI-1.0-SNAPSHOT.jar
+
+(PYTHON) install pyspark in env and simply run python file using : 
+
+python filename.py
+
+
+
+## Spark Config
+
+# Spark Properties
+    Application properties
+    App name
+    Driver cores
+    memory
+
+
+# Env variables
+    
+
+
+# Logging
+Log4j.properties
+
+
+# Dynamically configuring spark 
+using --config in 
+spark-shell or spark submit tool
+
+
+
+
+
