@@ -1,0 +1,1 @@
+{"class":"org.apache.spark.ml.feature.VectorAssembler","timestamp":1621351558904,"sparkVersion":"3.1.1","uid":"VectorAssembler_b41a0b5598af","paramMap":{"outputCol":"Attributes","inputCols":["Year","Engine HP","Engine Cylinders","Number of Doors","highway MPG","city mpg","Popularity"]},"defaultParamMap":{"handleInvalid":"error","outputCol":"VectorAssembler_b41a0b5598af__output"}}
