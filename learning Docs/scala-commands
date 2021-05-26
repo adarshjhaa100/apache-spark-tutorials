@@ -1,0 +1,7 @@
+scala download hello world skeleton
+
+sbt new scala/hello-world.g8
+
+
+scala build package 
+sbt package

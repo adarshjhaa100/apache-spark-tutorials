@@ -10,6 +10,7 @@ from pyspark.ml.evaluation import RegressionEvaluator
 from pyspark.ml.tuning import ParamGridBuilder
 
 
+
 # Replace column values
 def replace(column, value):
     return when(column != value, column).otherwise(lit(None))
@@ -20,16 +21,19 @@ def replace(column, value):
 def data_cleaning(data):
     print("data_cleaning")
     data = data.withColumn("Market Category", replace(col("Market Category"), "N/A"))
-    data.select([count(when(isnan(c) | col(c).isNull(), c)).alias(c) for c in data.columns]).show()
     data = data.drop("Market Category")
     data = data.na.drop()
+    
+    print("Number of rows After cleaning")
     print((data.count(), len(data.columns)))
+    
     return data
 
 
 
 # create randomforest pipeline
 def create_random_pipeline():
+    print("Creating Data pipeline for regressor")
     assembler = VectorAssembler(inputCols=["Year",
                                       "Engine HP",
                                       "Engine Cylinders",
@@ -49,6 +53,7 @@ def create_random_pipeline():
 
 # Creating cross validator
 def create_cross_val(pipelineStr, regressor):
+    print("Creating cross validator")
     pipelineModel = Pipeline.load(pipelineStr)
     paramGrid = ParamGridBuilder().addGrid(regressor.numTrees, [100, 500]).build()
 
@@ -60,35 +65,9 @@ def create_cross_val(pipelineStr, regressor):
     return crossval
 
 
-
-
-
-if __name__=="__main__":
-    spark=SparkSession.builder.appName("BDA Project").master("local[*]").getOrCreate()
-    spark.sparkContext.setLogLevel("ERROR")
-
-    data=spark.read.option("header",True).option("inferSchema",True).csv("Dataset/data.csv")
-
-    
-
-    # Step 1: Describe data
-    data.printSchema()
-    data.describe().show()
-    
-
-    # Step 2: Clean data
-    data=data_cleaning(data)
-    # cleanedDF.show()
-
-    # Step 3: Creating randomforest pipeline
-    pipelineStr,regressor=create_random_pipeline()
-    
-
-    # Step 4: Create a crossvalidator
-    crossval=create_cross_val(pipelineStr,regressor)
-    
-
-    # Step 5: Train and predict
+# Train the model
+def train_model(data, crossval):
+    print("Training model on car dataset")
     train_data, test_data = data.randomSplit([0.8,0.2], seed=123)
 
     cvModel= crossval.fit(train_data)
@@ -100,6 +79,51 @@ if __name__=="__main__":
     pred = cvModel.transform(test_data)
     pred.select("MSRP", "prediction").show()
 
+    return pred
+
+
+
+# Main 
+if __name__=="__main__":
+
+    # Create spark session
+    spark=SparkSession.builder.appName("BDA Project").master("local[*]").\
+        getOrCreate()
+    spark.sparkContext.setLogLevel("ERROR")
+    
+    
+    # Read data and print schema
+    data=spark.read.option("header",True).option("inferSchema",True).csv("Dataset/data.csv")
+    data.printSchema()      #Schema of data
+    
+    
+    # Step 3: Describe data
+    print("Data Description")
+    data.select(
+        "Year",
+        "Engine HP",
+        "Popularity",
+        "Model",
+        "MSRP"
+    ).describe().show(5)
+
+
+    # Step 4: Clean data
+    data=data_cleaning(data)
+    
+
+    # Step 3: Creating randomforest pipeline
+    pipelineStr,regressor=create_random_pipeline()
+    
+
+    # Step 4: Create a crossvalidator
+    crossval=create_cross_val(pipelineStr,regressor)
+    
+
+    # Step 5: Train and predict
+    pred=train_model(data,crossval)
+    
+
 
 
     # Step 6: Evaluate
@@ -109,8 +133,9 @@ if __name__=="__main__":
     mae= eval.evaluate(pred, {eval.metricName: "mae"})
     r2 = eval.evaluate(pred, {eval.metricName: "r2"})
 
+    print(f"R2 Score: {r2}")
     print(f"MSE: {mse}")
     print(f"MAE: {mae}")
-    print(f"R2: {r2}")
+    
 
     spark.stop()
