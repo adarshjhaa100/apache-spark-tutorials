@@ -139,6 +139,9 @@ cython_debug/
 
 
 #pipelines
+BDA_Project/Dataset/
+BDA_Project/pipeline/
 pipeline/
 Dataset/
+
 
